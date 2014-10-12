@@ -1,4 +1,5 @@
 require "stack"
+require "binary_tree"
 
 class UndefinedVariableError < StandardError; end
 
@@ -20,24 +21,21 @@ class Expression
 
     tokens.each do |token|
       if numeric?(token)
-        stack.push(token.to_i)
+        stack.push(BinaryTree.new(token.to_i))
       elsif variable?(token)
-        raise UndefinedVariableError if bindings[token.to_sym].nil?
-        stack.push(bindings[token.to_sym])
-      elsif token == "*"
+        if bindings.key?(token.to_sym)
+          stack.push(BinaryTree.new(bindings[token.to_sym]))
+        else
+          stack.push(BinaryTree.new(token))  # For raw variables and no bindings
+        end
+      elsif operator?(token)
         rhs = stack.pop
         lhs = stack.pop
-        stack.push(lhs * rhs)
-      elsif token == "+"
-        rhs = stack.pop
-        lhs = stack.pop
-        stack.push(lhs + rhs)
-      else
-        raise "hmmm what token is this?"
+        stack.push(BinaryTree.new(token, lhs, rhs))
       end
     end
 
-    stack.pop
+    stack.pop.evaluate
   end
 
   private
@@ -52,5 +50,9 @@ class Expression
 
   def variable?(token)
     token =~ /^[a-z]/
+  end
+
+  def operator?(token)
+    ["*", "+"].include?(token)
   end
 end
