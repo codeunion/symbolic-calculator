@@ -53,6 +53,6 @@ class Expression
   end
 
   def operator?(token)
-    ["*", "+"].include?(token)
+    ["*", "+", "-"].include?(token)
   end
 end

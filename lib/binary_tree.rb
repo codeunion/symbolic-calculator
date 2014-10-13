@@ -25,6 +25,8 @@ class BinaryTree
       else
         self.left.evaluate * self.right.evaluate
       end
+    when "-"
+      self.left.evaluate - self.right.evaluate
     when /-?\d+/
       self.value.to_i
     else
