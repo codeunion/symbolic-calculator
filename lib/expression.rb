@@ -1,5 +1,5 @@
 require "stack"
-require "binary_tree"
+require "binary_expression_tree"
 
 class UndefinedVariableError < StandardError; end
 
@@ -21,17 +21,17 @@ class Expression
 
     tokens.each do |token|
       if numeric?(token)
-        stack.push(BinaryTree.new(token.to_i))
+        stack.push(BinaryExpressionTree.new(token.to_i))
       elsif variable?(token)
         if bindings.key?(token.to_sym)
-          stack.push(BinaryTree.new(bindings[token.to_sym]))
+          stack.push(BinaryExpressionTree.new(bindings[token.to_sym]))
         else
-          stack.push(BinaryTree.new(token))  # For raw variables and no bindings
+          stack.push(BinaryExpressionTree.new(token))  # For raw variables and no bindings
         end
       elsif operator?(token)
         rhs = stack.pop
         lhs = stack.pop
-        stack.push(BinaryTree.new(token, lhs, rhs))
+        stack.push(BinaryExpressionTree.new(token, lhs, rhs))
       end
     end
 
