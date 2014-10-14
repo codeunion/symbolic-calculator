@@ -49,7 +49,7 @@ class Expression
   end
 
   def variable?(token)
-    token =~ /^[a-z]/
+    token =~ /^[a-z]{1}/
   end
 
   def operator?(token)
