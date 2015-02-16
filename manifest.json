@@ -1,0 +1,10 @@
+{
+  "category": "project",
+  "tags": [
+    "ruby",
+    "expression-tree",
+    "evaluation",
+    "variable-binding"
+  ],
+  "notes": "Lacking examples for iteration 2."
+}
